@@ -1,0 +1,12 @@
+/.idea
+.idea/
+build/
+vendor/
+logs/
+
+.DS_Store
+/broadcombeat
+/broadcombeat.test
+*.pyc
+
+*.exe
