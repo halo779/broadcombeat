@@ -156,7 +156,7 @@ func Process(evt common.MapStr) common.MapStr {
 		if strings.Contains(line, "Pwr(dBm)") {
 			re := regexp.MustCompile(`(\d*\.\d*)`)
 			matches := re.FindAllStringSubmatch(line, -1)
-			down, up := matches[0][0], matches[1][0]
+			up, down := matches[0][0], matches[1][0]
 			/*fmt.Print("Power: ")
 			fmt.Print(up + " ")
 			fmt.Println(down)*/
