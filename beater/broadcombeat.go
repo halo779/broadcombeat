@@ -52,7 +52,7 @@ func (bt *Broadcombeat) Run(b *beat.Beat) error {
 		}
 		logp.Info("Event sent")
 		fmt.Println("Event sent")
-		br := broadcom.Process(event)
+		br := broadcom.Process(event, bt.config)
 
 		fmt.Println(br)
 		bt.client.PublishEvent(br)

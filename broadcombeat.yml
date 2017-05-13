@@ -4,7 +4,10 @@
 
 broadcombeat:
   # Defines how often an event is sent to the output
-  period: 10s
+  period: 20s
+  host: "192.168.20.1:23"
+  user: "admin"
+  pass: "admin"
 
 #================================ General =====================================
 
@@ -29,7 +32,7 @@ broadcombeat:
 #-------------------------- Elasticsearch output ------------------------------
 #output.elasticsearch:
   # Array of hosts to connect to.
-  #hosts: ["monitorhost:9200"]
+  #hosts: ["localhost:9200"]
 
   # Optional protocol and basic auth credentials.
   #protocol: "https"
@@ -39,7 +42,7 @@ broadcombeat:
 #----------------------------- Logstash output --------------------------------
 output.logstash:
   # The Logstash hosts
-  hosts: ["monitorhost:5044"]
+  hosts: ["localhost:5044"]
 
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications

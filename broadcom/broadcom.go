@@ -11,6 +11,7 @@ import (
 	"strconv"
 
 	"github.com/elastic/beats/libbeat/common"
+	"github.com/halo779/broadcombeat/config"
 	"github.com/ziutek/telnet"
 )
 
@@ -50,11 +51,12 @@ func toNum(s string) float64 {
 	return val
 }
 
-func Process(evt common.MapStr) common.MapStr {
+func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 	Results := evt
 	//fmt.Println("Processing")
 
 	dst, user, passwd := "192.168.21.1:23", "admin", "admin"
+	dst = cfg.Host
 	Results.Put("DataSource", dst)
 	t, err := telnet.Dial("tcp", dst)
 	checkErr(err)
