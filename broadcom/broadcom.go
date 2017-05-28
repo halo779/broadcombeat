@@ -1,7 +1,6 @@
 package broadcom
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"regexp"
@@ -53,9 +52,9 @@ func toNum(s string) float64 {
 
 func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 	Results := evt
-	//fmt.Println("Processing")
 
-	dst, user, passwd := "192.168.21.1:23", "admin", "admin"
+	//Allocate default values.
+	dst, user, passwd := "192.168.1.1:23", "admin", "admin"
 	dst = cfg.Host
 	Results.Put("DataSource", dst)
 	t, err := telnet.Dial("tcp", dst)
@@ -149,9 +148,6 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			re := regexp.MustCompile(`(\d*\.\d*)`)
 			matches := re.FindAllStringSubmatch(line, -1)
 			down, up := matches[0][0], matches[1][0]
-			fmt.Print("Attn: ")
-			fmt.Print(up + " ")
-			fmt.Println(down)
 			Results.Put("LineAtteuationUpstream", toNum(up))
 			Results.Put("LineAtteuationDownstream", toNum(down))
 		}
@@ -159,9 +155,6 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			re := regexp.MustCompile(`(\d*\.\d*)`)
 			matches := re.FindAllStringSubmatch(line, -1)
 			up, down := matches[0][0], matches[1][0]
-			/*fmt.Print("Power: ")
-			fmt.Print(up + " ")
-			fmt.Println(down)*/
 			Results.Put("PowerUpstream", toNum(up))
 			Results.Put("PowerDownstream", toNum(down))
 		}
