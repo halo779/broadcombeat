@@ -151,6 +151,27 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			Results.Put("LineAtteuationUpstream", toNum(up))
 			Results.Put("LineAtteuationDownstream", toNum(down))
 		}
+		if strings.Contains(line, "INP:") {
+			re := regexp.MustCompile(`(\d*\.\d*)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("INPUpstream", toNum(up))
+			Results.Put("INPDownstream", toNum(down))
+		}
+		if strings.Contains(line, "INPRein:") {
+			re := regexp.MustCompile(`(\d*\.\d*)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("INPReinUpstream", toNum(up))
+			Results.Put("INPReinDownstream", toNum(down))
+		}
+		if strings.Contains(line, "delay:") {
+			re := regexp.MustCompile(`(\d*\.\d*)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("DelayReinUpstream", toNum(up))
+			Results.Put("DelayReinDownstream", toNum(down))
+		}
 		if strings.Contains(line, "Pwr(dBm)") {
 			re := regexp.MustCompile(`(\d*\.\d*)`)
 			matches := re.FindAllStringSubmatch(line, -1)
