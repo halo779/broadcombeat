@@ -166,7 +166,7 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			Results.Put("INPReinDownstream", toNum(down))
 		}
 		if strings.Contains(line, "delay:") {
-			re := regexp.MustCompile(`(\d*\.\d*)`)
+			re := regexp.MustCompile(`(\d+){2}`)
 			matches := re.FindAllStringSubmatch(line, -1)
 			down, up := matches[0][0], matches[1][0]
 			Results.Put("DelayReinUpstream", toNum(up))
