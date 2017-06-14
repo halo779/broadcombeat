@@ -169,8 +169,15 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			re := regexp.MustCompile(`(\d+)`)
 			matches := re.FindAllStringSubmatch(line, -1)
 			up, down := matches[0][0], matches[1][0]
-			Results.Put("DelayReinUpstream", toNum(up))
-			Results.Put("DelayReinDownstream", toNum(down))
+			Results.Put("DelayUpstream", toNum(up))
+			Results.Put("DelayDownstream", toNum(down))
+		}
+		if strings.Contains(line, "D:") {
+			re := regexp.MustCompile(`(\d+)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			up, down := matches[0][0], matches[1][0]
+			Results.Put("InterleavingDepthUpstream", toNum(up))
+			Results.Put("InterleavingDepthDownstream", toNum(down))
 		}
 		if strings.Contains(line, "Pwr(dBm)") {
 			re := regexp.MustCompile(`(\d*\.\d*)`)
