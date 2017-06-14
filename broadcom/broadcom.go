@@ -173,7 +173,7 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			Results.Put("DelayDownstream", toNum(down))
 		}
 		if strings.HasPrefix(line, "D:") {
-			re := regexp.MustCompile(`(\d+){2}`)
+			re := regexp.MustCompile(`(\d+)`)
 			matches := re.FindAllStringSubmatch(line, -1)
 			up, down := matches[0][0], matches[1][0]
 			Results.Put("InterleavingDepthUpstream", toNum(up))
