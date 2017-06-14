@@ -151,29 +151,29 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			Results.Put("LineAtteuationUpstream", toNum(up))
 			Results.Put("LineAtteuationDownstream", toNum(down))
 		}
-		if strings.Contains(line, "INP:") {
+		if strings.HasPrefix(line, "INP:") {
 			re := regexp.MustCompile(`(\d*\.\d*)`)
 			matches := re.FindAllStringSubmatch(line, -1)
 			down, up := matches[0][0], matches[1][0]
 			Results.Put("INPUpstream", toNum(up))
 			Results.Put("INPDownstream", toNum(down))
 		}
-		if strings.Contains(line, "INPRein:") {
+		if strings.HasPrefix(line, "INPRein:") {
 			re := regexp.MustCompile(`(\d*\.\d*)`)
 			matches := re.FindAllStringSubmatch(line, -1)
 			down, up := matches[0][0], matches[1][0]
 			Results.Put("INPReinUpstream", toNum(up))
 			Results.Put("INPReinDownstream", toNum(down))
 		}
-		if strings.Contains(line, "delay:") {
+		if strings.HasPrefix(line, "delay:") {
 			re := regexp.MustCompile(`(\d+)`)
 			matches := re.FindAllStringSubmatch(line, -1)
 			up, down := matches[0][0], matches[1][0]
 			Results.Put("DelayUpstream", toNum(up))
 			Results.Put("DelayDownstream", toNum(down))
 		}
-		if strings.Contains(line, "D:") {
-			re := regexp.MustCompile(`(\d+)`)
+		if strings.HasPrefix(line, "D:") {
+			re := regexp.MustCompile(`(\d+){2}`)
 			matches := re.FindAllStringSubmatch(line, -1)
 			up, down := matches[0][0], matches[1][0]
 			Results.Put("InterleavingDepthUpstream", toNum(up))
