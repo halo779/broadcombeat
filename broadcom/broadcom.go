@@ -186,6 +186,12 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			Results.Put("PowerUpstream", toNum(up))
 			Results.Put("PowerDownstream", toNum(down))
 		}
+		if strings.HasPrefix(line, "Since Link time = ") {
+			re := regexp.MustCompile(`= ([\s\S]*)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			dslUptime := matches[0][0]
+			Results.Put("LinkUptime", dslUptime)
+		}
 
 	}
 	sendln(t, "exit")
