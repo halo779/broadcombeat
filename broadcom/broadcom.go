@@ -191,6 +191,45 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			matches := re.FindAllStringSubmatch(line, -1)
 			dslUptime := strings.TrimSpace(matches[0][1])
 			Results.Put("LinkUptime", dslUptime)
+
+			re = regexp.MustCompile(`(?:(?P<sec>\d+)(?: sec))`)
+			matches = re.FindAllStringSubmatch(dslUptime, -1)
+			dslUptimeSec := strings.TrimSpace(matches[0][1])
+			re = regexp.MustCompile(`(?:(?P<min>\d+)(?: min))`)
+			matches = re.FindAllStringSubmatch(dslUptime, -1)
+			dslUptimeMin := strings.TrimSpace(matches[0][1])
+			re = regexp.MustCompile(`(?:(?P<hours>\d+)(?: hours))`)
+			matches = re.FindAllStringSubmatch(dslUptime, -1)
+			dslUptimeHours := strings.TrimSpace(matches[0][1])
+			re = regexp.MustCompile(`(?:(?P<days>\d+)(?: days))`)
+			matches = re.FindAllStringSubmatch(dslUptime, -1)
+			dslUptimeDays := strings.TrimSpace(matches[0][1])
+
+			dslUptimeTotalSeconds := toNum(dslUptimeDays)*86400 + toNum(dslUptimeHours)*3600 + toNum(dslUptimeMin)*60 + toNum(dslUptimeSec)
+			Results.Put("DslUpTimeSeconds", dslUptimeTotalSeconds)
+		}
+
+		if strings.HasPrefix(line, "Total time = ") {
+			re := regexp.MustCompile(`= ([\s\S]*)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			deviceUptime := strings.TrimSpace(matches[0][1])
+			Results.Put("DeviceUpTime", deviceUptime)
+
+			re = regexp.MustCompile(`(?:(?P<sec>\d+)(?: sec))`)
+			matches = re.FindAllStringSubmatch(deviceUptime, -1)
+			deviceUptimeSec := strings.TrimSpace(matches[0][1])
+			re = regexp.MustCompile(`(?:(?P<min>\d+)(?: min))`)
+			matches = re.FindAllStringSubmatch(deviceUptime, -1)
+			deviceUptimeMin := strings.TrimSpace(matches[0][1])
+			re = regexp.MustCompile(`(?:(?P<hours>\d+)(?: hours))`)
+			matches = re.FindAllStringSubmatch(deviceUptime, -1)
+			deviceUptimeHours := strings.TrimSpace(matches[0][1])
+			re = regexp.MustCompile(`(?:(?P<days>\d+)(?: days))`)
+			matches = re.FindAllStringSubmatch(deviceUptime, -1)
+			deviceUptimeDays := strings.TrimSpace(matches[0][1])
+
+			deviceUptimeTotalSeconds := toNum(deviceUptimeDays)*86400 + toNum(deviceUptimeHours)*3600 + toNum(deviceUptimeMin)*60 + toNum(deviceUptimeSec)
+			Results.Put("DeviceUpTimeSeconds", deviceUptimeTotalSeconds)
 		}
 
 	}
