@@ -192,18 +192,28 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			dslUptime := strings.TrimSpace(matches[0][1])
 			Results.Put("LinkUptime", dslUptime)
 
+			dslUptimeSec, dslUptimeMin, dslUptimeHours, dslUptimeDays := "0", "0", "0", "0"
+
 			re = regexp.MustCompile(`(?:(?P<sec>\d+)(?: sec))`)
 			matches = re.FindAllStringSubmatch(dslUptime, -1)
-			dslUptimeSec := strings.TrimSpace(matches[0][1])
+			if len(matches) != 0 {
+				dslUptimeSec = strings.TrimSpace(matches[0][1])
+			}
 			re = regexp.MustCompile(`(?:(?P<min>\d+)(?: min))`)
 			matches = re.FindAllStringSubmatch(dslUptime, -1)
-			dslUptimeMin := strings.TrimSpace(matches[0][1])
+			if len(matches) != 0 {
+				dslUptimeMin = strings.TrimSpace(matches[0][1])
+			}
 			re = regexp.MustCompile(`(?:(?P<hours>\d+)(?: hours))`)
 			matches = re.FindAllStringSubmatch(dslUptime, -1)
-			dslUptimeHours := strings.TrimSpace(matches[0][1])
+			if len(matches) != 0 {
+				dslUptimeHours = strings.TrimSpace(matches[0][1])
+			}
 			re = regexp.MustCompile(`(?:(?P<days>\d+)(?: days))`)
 			matches = re.FindAllStringSubmatch(dslUptime, -1)
-			dslUptimeDays := strings.TrimSpace(matches[0][1])
+			if len(matches) != 0 {
+				dslUptimeDays = strings.TrimSpace(matches[0][1])
+			}
 
 			dslUptimeTotalSeconds := toNum(dslUptimeDays)*86400 + toNum(dslUptimeHours)*3600 + toNum(dslUptimeMin)*60 + toNum(dslUptimeSec)
 			Results.Put("DslUpTimeSeconds", dslUptimeTotalSeconds)
@@ -214,19 +224,27 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 			matches := re.FindAllStringSubmatch(line, -1)
 			deviceUptime := strings.TrimSpace(matches[0][1])
 			Results.Put("DeviceUpTime", deviceUptime)
-
+			deviceUptimeSec, deviceUptimeMin, deviceUptimeHours, deviceUptimeDays := "0", "0", "0", "0"
 			re = regexp.MustCompile(`(?:(?P<sec>\d+)(?: sec))`)
 			matches = re.FindAllStringSubmatch(deviceUptime, -1)
-			deviceUptimeSec := strings.TrimSpace(matches[0][1])
+			if len(matches) != 0 {
+				deviceUptimeSec = strings.TrimSpace(matches[0][1])
+			}
 			re = regexp.MustCompile(`(?:(?P<min>\d+)(?: min))`)
 			matches = re.FindAllStringSubmatch(deviceUptime, -1)
-			deviceUptimeMin := strings.TrimSpace(matches[0][1])
+			if len(matches) != 0 {
+				deviceUptimeMin = strings.TrimSpace(matches[0][1])
+			}
 			re = regexp.MustCompile(`(?:(?P<hours>\d+)(?: hours))`)
 			matches = re.FindAllStringSubmatch(deviceUptime, -1)
-			deviceUptimeHours := strings.TrimSpace(matches[0][1])
+			if len(matches) != 0 {
+				deviceUptimeHours = strings.TrimSpace(matches[0][1])
+			}
 			re = regexp.MustCompile(`(?:(?P<days>\d+)(?: days))`)
 			matches = re.FindAllStringSubmatch(deviceUptime, -1)
-			deviceUptimeDays := strings.TrimSpace(matches[0][1])
+			if len(matches) != 0 {
+				deviceUptimeDays = strings.TrimSpace(matches[0][1])
+			}
 
 			deviceUptimeTotalSeconds := toNum(deviceUptimeDays)*86400 + toNum(deviceUptimeHours)*3600 + toNum(deviceUptimeMin)*60 + toNum(deviceUptimeSec)
 			Results.Put("DeviceUpTimeSeconds", deviceUptimeTotalSeconds)
