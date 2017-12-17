@@ -58,6 +58,7 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 	dst = cfg.Host
 	Results.Put("DataSource", dst)
 	t, err := telnet.Dial("tcp", dst)
+	atLinkStats := false
 	checkErr(err)
 	if err != nil {
 		return nil
@@ -248,6 +249,67 @@ func Process(evt common.MapStr, cfg config.Config) common.MapStr {
 
 			deviceUptimeTotalSeconds := toNum(deviceUptimeDays)*86400 + toNum(deviceUptimeHours)*3600 + toNum(deviceUptimeMin)*60 + toNum(deviceUptimeSec)
 			Results.Put("DeviceUpTimeSeconds", deviceUptimeTotalSeconds)
+		}
+
+		if strings.HasPrefix(line, "Since Link time =") {
+			atLinkStats = true
+		}
+		if strings.HasPrefix(line, "FEC: ") && atLinkStats {
+			re := regexp.MustCompile(`(\d+)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("LinkFECUpstream", toNum(up))
+			Results.Put("LinkFECDownstream", toNum(down))
+		}
+		if strings.HasPrefix(line, "CRC: ") && atLinkStats {
+			re := regexp.MustCompile(`(\d+)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("LinkCRCUpstream", toNum(up))
+			Results.Put("LinkCRCDownstream", toNum(down))
+		}
+		if strings.HasPrefix(line, "ES: ") && atLinkStats {
+			re := regexp.MustCompile(`(\d+)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("LinkESUpstream", toNum(up))
+			Results.Put("LinkESDownstream", toNum(down))
+		}
+		if strings.HasPrefix(line, "SES: ") && atLinkStats {
+			re := regexp.MustCompile(`(\d+)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("LinkSESUpstream", toNum(up))
+			Results.Put("LinkSESDownstream", toNum(down))
+		}
+		if strings.HasPrefix(line, "UAS: ") && atLinkStats {
+			re := regexp.MustCompile(`(\d+)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("LinkUASUpstream", toNum(up))
+			Results.Put("LinkUASDownstream", toNum(down))
+		}
+		if strings.HasPrefix(line, "LOS: ") && atLinkStats {
+			re := regexp.MustCompile(`(\d+)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("LinkLOSUpstream", toNum(up))
+			Results.Put("LinkLOSDownstream", toNum(down))
+		}
+		if strings.HasPrefix(line, "LOF: ") && atLinkStats {
+			re := regexp.MustCompile(`(\d+)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("LinkLOFUpstream", toNum(up))
+			Results.Put("LinkLOFDownstream", toNum(down))
+		}
+		if strings.HasPrefix(line, "LOM: ") && atLinkStats {
+			re := regexp.MustCompile(`(\d+)`)
+			matches := re.FindAllStringSubmatch(line, -1)
+			down, up := matches[0][0], matches[1][0]
+			Results.Put("LinkLOMUpstream", toNum(up))
+			Results.Put("LinkLOMDownstream", toNum(down))
+			atLinkStats = false
 		}
 
 	}
